@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS company_db
+DROP DATABASE IF EXISTS company_db;
 
-CREATE DATABASE company_db
+CREATE DATABASE company_db;
 
-USE company_db
+USE company_db;
 
 CREATE TABLE employees (
     id INT NOT NULL AUTO_INCREMENT,
@@ -10,7 +10,7 @@ CREATE TABLE employees (
     last_name VARCHAR(30),
     role_id INT,
     manager_id INT
-),
+);
 
 CREATE TABLE roles (
     id INT NOT NULL AUTO_INCREMENT,
@@ -18,7 +18,7 @@ CREATE TABLE roles (
     salary decimal (10,2),
     department_id INT
 
-),
+);
 
 CREATE TABLE department (
     id INT NOT NULL AUTO_INCREMENT,
