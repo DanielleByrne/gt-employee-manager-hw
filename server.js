@@ -1,7 +1,7 @@
-var mysql = require("mysql");
-var inquirer = require("inquirer");
+const mysql = require("mysql");
+const inquirer = require("inquirer");
 
-var connection = mysql.createConnection({
+const connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
   user: "root",
@@ -9,10 +9,12 @@ var connection = mysql.createConnection({
   database: "company_db",
 });
 
+
 connection.connect(function (err) {
-  if (err) throw err;
-  promptUser();
-});
+    if (err) throw err;
+    console.log("connected as id " + connection.threadId);
+    promptUser();
+  });
 
 function promptUser() {
   inquirer
@@ -31,10 +33,10 @@ function promptUser() {
         "exit",
       ],
     })
-    .then(function (answer) {
-      switch (answer.action) {
+    .then(function (response) {
+      switch (response.options) {
         case "View all employees":
-          //function to view all employees
+          viewAllEmployees();
           break;
 
         case "View all employees by department":
@@ -59,14 +61,23 @@ function promptUser() {
           //function to view by department
           break;
 
-          //bonus*****************************
+        //bonus*****************************
         // case "Update employee manager":
         //   //function to view by department
         //   break;
 
         case "exit":
-          connection.end();
+            connection.end();
           break;
       }
     });
 }
+
+function viewAllEmployees() {
+  connection.query("SELECT * FROM employees", function (err, res) {
+    if (err) throw err;
+    console.table(res);
+    connection.end();
+  });
+}
+
