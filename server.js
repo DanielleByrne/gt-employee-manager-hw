@@ -9,12 +9,11 @@ const connection = mysql.createConnection({
   database: "company_db",
 });
 
-
 connection.connect(function (err) {
-    if (err) throw err;
-    console.log("connected as id " + connection.threadId);
-    promptUser();
-  });
+  if (err) throw err;
+  console.log("connected as id " + connection.threadId);
+  promptUser();
+});
 
 function promptUser() {
   inquirer
@@ -40,7 +39,7 @@ function promptUser() {
           break;
 
         case "View all employees by department":
-          //function to view by department
+          viewEmployeeDepartment();
           break;
 
         //bonus*****************************
@@ -49,7 +48,7 @@ function promptUser() {
         //   break;
 
         case "Add an employee":
-          //function to view by department
+          addEmployee();
           break;
 
         // bonus*****************************
@@ -58,7 +57,7 @@ function promptUser() {
         //   break;
 
         case "Update employee Role":
-          //function to view by department
+          updateEmployee();
           break;
 
         //bonus*****************************
@@ -67,7 +66,7 @@ function promptUser() {
         //   break;
 
         case "exit":
-            connection.end();
+          connection.end();
           break;
       }
     });
@@ -81,3 +80,57 @@ function viewAllEmployees() {
   });
 }
 
+function addEmployee() {
+  inquirer
+    .prompt([
+      {
+        name: "employeeName",
+        type: "input",
+        message: "What is the first name of the employee you want to add?",
+      },
+      {
+        name: "employeeLastName",
+        type: "input",
+        message: "What is the last name of the employee you want to add?",
+      },
+      {
+        name: "employeeRoleId",
+        type: "input",
+        message: "What is the role ID of the employee you want to add?",
+      },
+      {
+        name: "employeeManagerId",
+        type: "input",
+        message: "What is the Manager ID of the employee you want to add?",
+      },
+    ])
+    .then(function (answer) {
+      connection.query(
+        "INSERT INTO employees SET ?",
+        {
+          first_name: answer.employeeName,
+          last_name: answer.employeeLastName,
+          role_id: answer.employeeRoleId,
+          manager_id: answer.employeeManagerId,
+        },
+        function (err, res) {
+          if (err) throw err;
+          viewAllEmployees();
+        }
+      );
+    });
+}
+
+ function updateEmployee(){
+     inquirer.prompt([
+         {
+            name: "employeeChange",
+            type: "input",
+            message: "What is the name of the employee you want to update?"
+         }
+     ]).then(function(answer){
+        //select info for the employee SELECT * FROM employees WHERE ?
+        // update that info UPDATE empoyees SET WHERE 
+     })
+ }
+ 
