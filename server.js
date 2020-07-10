@@ -1,5 +1,25 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
+const arrayofRoles = [
+    {
+        name: "Manager",
+        value: 1
+    },
+    {
+        name: "Developer",
+        value: 2
+    },
+    {
+        name: "Intern",
+        value: 3
+    }
+]
+const arrayofManagers = [
+    {
+        name: "Bob Jones",
+        value: 1
+    }
+]
 
 const connection = mysql.createConnection({
   host: "localhost",
@@ -94,14 +114,16 @@ function addEmployee() {
         message: "What is the last name of the employee you want to add?",
       },
       {
-        name: "employeeRoleId",
-        type: "input",
-        message: "What is the role ID of the employee you want to add?",
+        name: "employeeRole",
+        type: "list",
+        message: "What is the role of the employee you want to add?",
+        choices: arrayofRoles
       },
       {
-        name: "employeeManagerId",
-        type: "input",
-        message: "What is the Manager ID of the employee you want to add?",
+        name: "employeeManager",
+        type: "list",
+        message: "What is the Manager of the employee you want to add?",
+        choices: arrayofManagers
       },
     ])
     .then(function (answer) {
@@ -110,8 +132,8 @@ function addEmployee() {
         {
           first_name: answer.employeeName,
           last_name: answer.employeeLastName,
-          role_id: answer.employeeRoleId,
-          manager_id: answer.employeeManagerId,
+          role_id: answer.employeeRole,
+          manager_id: answer.employeeManager,
         },
         function (err, res) {
           if (err) throw err;

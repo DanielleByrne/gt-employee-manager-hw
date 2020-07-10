@@ -24,3 +24,12 @@ CREATE TABLE department (
     id INT NOT NULL AUTO_INCREMENT,
     department VARCHAR(30)
 )
+
+
+
+INSERT INTO employees (first_name, last_name, role_id, manager_id)
+VALUES ("Mike", "Wazouski", 9, 7), ("Alex", "Smith", 4 , 6),("Sarah", "Brown", 4, 6);
+
+
+INSERT INTO employees (first_name, last_name, role_id, manager_id)
+VALUES ("Bob", "Jones", 1, 0),
