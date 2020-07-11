@@ -123,7 +123,7 @@ function addEmployee() {
       );
     });
 }
-
+// couldn't get it to work in time 
 function updateEmployee() {
     viewAllEmployees();
   inquirer
@@ -147,7 +147,7 @@ function updateEmployee() {
       ),
         {
           last_name: answer.employeeChange,
-          role_id: answer.employeeChange,
+          role_id: answer.roleChange,
         },
         function (err, res) {
           if (err) throw err;
