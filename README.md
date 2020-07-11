@@ -1,6 +1,6 @@
-# CLI Employee Managet
+# CLI Employee Manager
 
-[Link to GitHub] (https://github.com/DanielleByrne)
+[Link to GitHub] (https://github.com/DanielleByrne/gt-employee-manager-hw)
 
 ## Table of Contents 
 
@@ -25,7 +25,7 @@ This project is comprised of an HTML, CSS, and JavaScript file that make a rando
 
 ## Credits
 
-This was a project I completed as a homework assignment in my Georgia Tech Coding Bootcamp. I used the Inquirer npm package and MySql
+This was a project I completed as a homework assignment in my Georgia Tech Coding Bootcamp. I used the Inquirer npm package and MySql npm package, as well as myswl workbench.
 
 * [npm Inquirer](https://www.npmjs.com/package/inquirer)
 * [MySql](https://www.npmjs.com/package/mysql)
