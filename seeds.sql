@@ -27,12 +27,13 @@ SELECT * FROM department ;
 SELECT * FROM roles;
 
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
-VALUES ("Mike", "Wazouski", 9, 7), ("Alex", "Smith", 4 , 6),("Sarah", "Brown", 4, 6);
+VALUES ("Mike", "Wazouski", 2, 1),("James", "Sullivan", 2, 1),("Randall", "Boggs", 3, 1), ("Alex", "Smith", 3 , 1),("Sarah", "Brown", 3, 1);
 
 INSERT INTO department (name)
 VALUES ("Manager"), ("Developer"), ("Intern");
 
-
+INSERT INTO roles (title, salary, department_id)
+VALUES ("Manager", 170000, 1), ("Developer", 150000, 2),("Intern", 43000, 3);
 
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
 VALUES ("Bob", "Jones", 1, null);
@@ -40,8 +41,7 @@ VALUES ("Bob", "Jones", 1, null);
 SET SQL_SAFE_UPDATES = 0;
 
 -- UPDATE employees 
--- SET manager_id = 1
--- WHERE first_name = "Alex";
+-- SET role_id = 2
+-- WHERE first_name = "Sarah";
 
-INSERT INTO roles (title, salary, department_id)
-VALUES ("Manager", 170000, 1), ("Developer", 150000, 2),("Intern", 43000, 3);
+-- SELECT * FROM employees WHERE role_id = 1
