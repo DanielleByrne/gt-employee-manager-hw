@@ -1,5 +1,25 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
+const arrayofRoles = [
+  {
+    name: "Manager",
+    value: 1,
+  },
+  {
+    name: "Developer",
+    value: 2,
+  },
+  {
+    name: "Intern",
+    value: 3,
+  },
+];
+const arrayofManagers = [
+  {
+    name: "Bob Jones",
+    value: 1,
+  },
+];
 
 const connection = mysql.createConnection({
   host: "localhost",
@@ -24,11 +44,8 @@ function promptUser() {
       choices: [
         "View all employees",
         "View all employees by department",
-        // "View all employees by manager",
         "Add an employee",
-        // "Remove an employee",
         "Update employee role",
-        // "Update employee manager",
         "exit",
       ],
     })
@@ -42,28 +59,13 @@ function promptUser() {
           viewEmployeeDepartment();
           break;
 
-        //bonus*****************************
-        // case "View all employees by manager":
-        //   //function to view by manager
-        //   break;
-
         case "Add an employee":
           addEmployee();
           break;
 
-        // bonus*****************************
-        // case "Remove an employee":
-        //   //function to view by department
-        //   break;
-
-        case "Update employee Role":
+        case "Update employee role":
           updateEmployee();
           break;
-
-        //bonus*****************************
-        // case "Update employee manager":
-        //   //function to view by department
-        //   break;
 
         case "exit":
           connection.end();
@@ -76,7 +78,7 @@ function viewAllEmployees() {
   connection.query("SELECT * FROM employees", function (err, res) {
     if (err) throw err;
     console.table(res);
-    connection.end();
+    promptUser();
   });
 }
 
@@ -94,14 +96,16 @@ function addEmployee() {
         message: "What is the last name of the employee you want to add?",
       },
       {
-        name: "employeeRoleId",
-        type: "input",
-        message: "What is the role ID of the employee you want to add?",
+        name: "employeeRole",
+        type: "list",
+        message: "What is the role of the employee you want to add?",
+        choices: arrayofRoles,
       },
       {
-        name: "employeeManagerId",
-        type: "input",
-        message: "What is the Manager ID of the employee you want to add?",
+        name: "employeeManager",
+        type: "list",
+        message: "What is the Manager of the employee you want to add?",
+        choices: arrayofManagers,
       },
     ])
     .then(function (answer) {
@@ -110,8 +114,8 @@ function addEmployee() {
         {
           first_name: answer.employeeName,
           last_name: answer.employeeLastName,
-          role_id: answer.employeeRoleId,
-          manager_id: answer.employeeManagerId,
+          role_id: answer.employeeRole,
+          manager_id: answer.employeeManager,
         },
         function (err, res) {
           if (err) throw err;
@@ -121,16 +125,79 @@ function addEmployee() {
     });
 }
 
- function updateEmployee(){
-     inquirer.prompt([
-         {
-            name: "employeeChange",
-            type: "input",
-            message: "What is the name of the employee you want to update?"
-         }
-     ]).then(function(answer){
-        //select info for the employee SELECT * FROM employees WHERE ?
-        // update that info UPDATE empoyees SET WHERE 
-     })
- }
- 
+function updateEmployee() {
+    viewAllEmployees();
+  inquirer
+    .prompt([
+      {
+        name: "employeeChange",
+        type: "input",
+        message: "What is the last name of the employee you want to update?",
+      },
+      {
+        name: "roleChange",
+        type: "list",
+        message: "What is the new role you want to assign this employee?",
+        choices: arrayofRoles,
+      },
+    ])
+    .then(function (answer) {
+      console.log(answer);
+      connection.query(
+        "SELECT * FROM employees WHERE ? UPDATE employees SET role_id = ? WHERE first_name = ?"
+      ),
+        {
+          last_name: answer.employeeChange,
+          role_id: answer.employeeChange,
+        },
+        function (err, res) {
+          if (err) throw err;
+          console.table(res);
+          viewAllEmployees();
+        };
+    });
+}
+function viewEmployeeDepartment() {
+  inquirer
+    .prompt({
+      name: "departmentOptions",
+      type: "list",
+      message: "Which department would you like to view?",
+      choices: ["Management", "Devlopment", "Interns"],
+    })
+    .then(function (response) {
+      switch (response.departmentOptions) {
+        case "Management":
+          console.log("please");
+          connection.query(
+            "SELECT * FROM employees WHERE role_id = 1",
+            function (err, res) {
+              if (err) throw err;
+              console.table(res);
+              promptUser();
+              return;
+            }
+          );
+        case "Devlopment":
+          connection.query(
+            "SELECT * FROM employees WHERE role_id = 2",
+            function (err, res) {
+              if (err) throw err;
+              console.table(res);
+              promptUser();
+              return;
+            }
+          );
+        case "Interns":
+          connection.query(
+            "SELECT * FROM employees WHERE role_id = 3",
+            function (err, res) {
+              if (err) throw err;
+              console.table(res);
+              promptUser();
+              return;
+            }
+          );
+      }
+    });
+}
