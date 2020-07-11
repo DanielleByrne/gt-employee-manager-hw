@@ -25,7 +25,7 @@ const connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
   user: "root",
-  password: "Cheeseplease421!",
+  password: "",
   database: "company_db",
 });
 
@@ -68,8 +68,7 @@ function promptUser() {
           break;
 
         case "exit":
-          connection.end();
-          break;
+          connection.end();process.exit();
       }
     });
 }
@@ -201,3 +200,4 @@ function viewEmployeeDepartment() {
       }
     });
 }
+
